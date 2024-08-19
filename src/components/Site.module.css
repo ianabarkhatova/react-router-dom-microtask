@@ -10,6 +10,11 @@
     display: flex;
 }
 
+h2 > img {
+    width: 200px;
+    height: 200px;
+}
+
 .nav{
    background-color: white;
     min-height: 400px;
@@ -34,3 +39,5 @@
     text-align: center;
     color: white;
 }
+
+
