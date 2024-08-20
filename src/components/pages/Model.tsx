@@ -1,34 +1,44 @@
-import {adidasArr} from './Adidas'
+import {adidasArr, ModelPropsType} from './Adidas'
+import {pumaArr} from './Puma'
 import {useParams} from "react-router-dom";
 
+type ArraysType = {
+    [key: string]: ModelPropsType[]
+}
 
+const arrays: ArraysType = {
+    adidas: adidasArr,
+    puma: pumaArr
+}
 
 export const Model = () => {
-    const params = useParams()
 
-    console.log(adidasArr)
-    console.log(params)
+    const {id, model, lol} = useParams()
 
-    const {id} = useParams()
-    const adidasItem = adidasArr.find(el => el.id === Number(id))
+//The expression first checks if model is truthy (i.e., if model is not null, undefined, or any other falsy value).
+    const item = model?
+        arrays[model].find(el => el.id === Number(id))
+        : null
 
-    console.log(adidasItem)
-    if (!adidasItem) {
-        return <div>Item not found</div>
-    }
+    console.log(item)
+    console.log(model)
+
+
     return (
-        <div style={{
-            display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-            gap: '20px'
-        }}>
-            <div>{adidasItem.model}</div>
-            <div>{adidasItem.collection}</div>
-            <div>{adidasItem.price}</div>
-            <img
-                src={adidasItem.picture}
-                alt={adidasItem.model}
-                style={{width: '300px', height: '300px'}}
-            />
-        </div>
+        item
+            ? <div style={{
+                display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                gap: '20px'
+            }}>
+                <div>{item?.model}</div>
+                <div>{item?.collection}</div>
+                <div>{item?.price}</div>
+                <img
+                    src={item?.picture}
+                    alt={item?.model}
+                    style={{width: '300px', height: '300px'}}
+                />
+            </div>
+            : <div>Item not found</div>
     );
 };

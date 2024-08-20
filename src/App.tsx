@@ -1,8 +1,8 @@
 import styles from "./components/Site.module.css";
-import {Adidas} from "./components/pages/Adidas";
-import {Puma} from "./components/pages/Puma";
+import {Adidas, adidasArr} from "./components/pages/Adidas";
+import {Puma, pumaArr} from "./components/pages/Puma";
 import {Abibas} from "./components/pages/Abibas";
-import {Navigate, NavLink, Route, Routes, useLocation, useParams} from 'react-router-dom'
+import {Navigate, NavLink, Route, Routes, useLocation} from 'react-router-dom'
 import {Error404} from "./components/pages/Error404";
 import {S} from './components/pages/_styles'
 import {Model} from "./components/pages/Model";
@@ -13,7 +13,7 @@ const PATH = {
     PAGE1: '/adidas',
     PAGE2: '/puma',
     PAGE3: '/abibas',
-    PAGE4: '/adidas/:id',
+    PAGE4: '/:model/:id',
     ERROR404: '/error404'
 } as const // значение св-ва не может быть изменено
 
@@ -31,11 +31,11 @@ function App() {
                 </div>
                 <div className={styles.content}>
                     <Routes>
-                        <Route path="/" element={<Navigate to={"/page1"}/>}/>
+                        <Route path="/" element={<Navigate to={'/adidas'}/>}/>
                         <Route path={PATH.PAGE1} element={<Adidas/>}/>
                         <Route path={PATH.PAGE2} element={<Puma/>}/>
                         <Route path={PATH.PAGE3} element={<Abibas/>}/>
-                        <Route path={PATH.PAGE4} element={<Model />} />
+                        <Route path={PATH.PAGE4} element={<Model/>} />
                         <Route path="/*" element={<NotFound/>}/>
                     </Routes>
                 </div>
