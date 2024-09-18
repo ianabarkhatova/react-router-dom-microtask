@@ -2,7 +2,7 @@ import styles from "./components/Site.module.css";
 import {Adidas, adidasArr} from "./components/pages/Adidas";
 import {Puma, pumaArr} from "./components/pages/Puma";
 import {Abibas} from "./components/pages/Abibas";
-import {Navigate, NavLink, Route, Routes, useLocation} from 'react-router-dom'
+import {Navigate, NavLink, Route, Routes, useLocation, Outlet} from 'react-router-dom'
 import {Error404} from "./components/pages/Error404";
 import {S} from './components/pages/_styles'
 import {Model} from "./components/pages/Model";
@@ -34,15 +34,16 @@ function App() {
                     <S.NavWrapper><NavLink to={PATH.PAGE5}>Wholesale prices</NavLink></S.NavWrapper>
                 </div>
                 <div className={styles.content}>
-                    <Routes>
-                        <Route path="/" element={<Navigate to={'/adidas'}/>}/>
-                        <Route path={PATH.PAGE1} element={<Adidas/>}/>
-                        <Route path={PATH.PAGE2} element={<Puma/>}/>
-                        <Route path={PATH.PAGE3} element={<Abibas/>}/>
-                        <Route path={PATH.PAGE4} element={<Model/>} />
-                        <Route path={PATH.PAGE5} element={<Prices/>} />
-                        <Route path="/*" element={<NotFound/>}/>
-                    </Routes>
+                    <Outlet />
+                    {/*<Routes>*/}
+                    {/*    <Route path="/" element={<Navigate to={'/adidas'}/>}/>*/}
+                    {/*    <Route path={PATH.PAGE1} element={<Adidas/>}/>*/}
+                    {/*    <Route path={PATH.PAGE2} element={<Puma/>}/>*/}
+                    {/*    <Route path={PATH.PAGE3} element={<Abibas/>}/>*/}
+                    {/*    <Route path={PATH.PAGE4} element={<Model/>} />*/}
+                    {/*    <Route path={PATH.PAGE5} element={<Prices/>} />*/}
+                    {/*    <Route path="/*" element={<NotFound/>}/>*/}
+                    {/*</Routes>*/}
                 </div>
             </div>
             <div className={styles.footer}>abibas 2023</div>
@@ -50,7 +51,7 @@ function App() {
     );
 }
 
-function NotFound() {
+export function NotFound() {
     const location = useLocation();
     return <Error404 path={location.pathname}/>
 }
