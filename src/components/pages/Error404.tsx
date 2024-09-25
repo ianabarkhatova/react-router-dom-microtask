@@ -1,7 +1,7 @@
 import React from 'react';
 
 type Error404PropsType = {
-    path: string
+    path?: string
 }
 
 export const Error404 = (props: Error404PropsType) => {

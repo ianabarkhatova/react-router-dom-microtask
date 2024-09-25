@@ -1,56 +1,78 @@
 import * as React from "react";
-import { createRoot } from "react-dom/client";
 import {
-    createBrowserRouter,
-    RouterProvider,
-    Route,
-    Link, useLocation,
+    createBrowserRouter, Navigate, Outlet, RouteObject
 } from "react-router-dom";
-import App, {NotFound} from "../App";
-import {Error404} from "../components/pages/Error404";
+import App, {NotFound, PATH} from "../App";
 import {Adidas} from "../components/pages/Adidas";
 import {Puma} from "../components/pages/Puma";
 import {Abibas} from "../components/pages/Abibas";
 import {Prices} from "../components/pages/Prices";
 import {Model} from "../components/pages/Model";
+import {ProtectedPage} from "../components/pages/ProtectedPage";
+import {Error404} from "../components/pages/Error404";
+import {Login} from "../components/pages/Login";
 
-const PATH = {
-    ADIDAS: '/adidas',
-    PUMA: '/puma',
-    ABIBAS: '/abibas',
-    MODEL: '/:model/:id',
-    PRICES: '/prices',
-    ERROR404: '/error404',
-} as const // значение св-ва не может быть изменено
+const publicRoutes: RouteObject[] = [
+    {
+        path: PATH.ADIDAS,
+        element: <Adidas/>,
+    },
+    {
+        path: PATH.PUMA,
+        element: <Puma/>,
+    },
+    {
+        path: PATH.ABIBAS,
+        element: <Abibas/>,
+    },
+    {
+        path: PATH.PRICES,
+        element: <Prices/>,
+    },
+    {
+        path: PATH.MODEL,
+        element: <Model/>,
+    },
+    {
+        path: PATH.ERROR404,
+        element: <Error404/>,
+    },
+    {
+        path: PATH.MAIN,
+        element: <Adidas/>,
+    },
+    {
+        path: PATH.LOGIN,
+        element: <Login/>,
+    },
+]
+
+const privateRoutes: RouteObject[] = [
+    {
+        path: PATH.PROTECTED_PAGE,
+        element: <ProtectedPage/>
+    }
+]
+
+const PrivateRoutes = () => {
+    const isAuth = false
+
+    return isAuth
+        ? <>{Outlet}</>
+        : <Navigate to={PATH.LOGIN}/>
+};
 
 export const router = createBrowserRouter([
-
     {
         path: "/",
         element: <App/>,
-        errorElement: <NotFound/>,
+        errorElement: <Navigate to={PATH.ERROR404}/>,
         children: [
             {
-                path: PATH.ADIDAS,
-                element: <Adidas/>,
+                element: <PrivateRoutes/>,
+                children: privateRoutes
             },
-            {
-                path: PATH.PUMA,
-                element: <Puma/>,
-            },
-            {
-                path: PATH.ABIBAS,
-                element: <Abibas/>,
-            },
-            {
-                path: PATH.PRICES,
-                element: <Prices/>,
-            },
-            {
-                path: PATH.MODEL,
-                element: <Model/>,
-            },
-
+            ...publicRoutes,
         ]
     },
 ]);
