@@ -1,5 +1,5 @@
 import styles from "./components/Site.module.css";
-import {NavLink, useLocation, Outlet} from 'react-router-dom'
+import {NavLink, useLocation, Outlet, Link, useNavigate} from 'react-router-dom'
 import {Error404} from "./components/pages/Error404";
 import {S} from './components/pages/_styles'
 import React from "react";
@@ -13,14 +13,20 @@ export const PATH = {
     PRICES: '/prices',
     ERROR404: '/error404',
     PROTECTED_PAGE: '/protected-page',
-    // PAGE_NOT_FOUND: '/*',
     MAIN: '/',
     LOGIN: '/login'
+    // PAGE_NOT_FOUND: '/*',
+
 
 } as const // значение св-ва не может быть изменено
 
 
 function App() {
+
+    const navigate = useNavigate()
+    const navigateHandler = () => {
+        navigate(-1)
+    }
 
     return (
         <div>
@@ -34,6 +40,10 @@ function App() {
                     <S.NavWrapper><NavLink to={PATH.PROTECTED_PAGE}>Protected Page</NavLink></S.NavWrapper>
                 </div>
                 <div className={styles.content}>
+                    <div className={styles.HorizontalNavigation}>
+                        <Link to={PATH.ABIBAS} className={styles.ButtonLikeLink} >Main</Link>
+                        <button onClick={navigateHandler} className={styles.LinkLikeButton}>Back</button>
+                    </div>
                     <Outlet />
                     {/*<Routes>*/}
                     {/*    <Route path="/" element={<Navigate to={'/adidas'}/>}/>*/}
